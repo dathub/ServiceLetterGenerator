@@ -1,0 +1,60 @@
+.root {
+    -fx-background-color: white;
+    /*-fx-padding: 10px;*/
+}
+
+.label {
+    -fx-font-family: "Arial";
+}
+
+#titleLabel {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+#subtitleLabel {
+    -fx-font-size: 16px;
+    -fx-text-fill: black;
+}
+
+.button {
+    -fx-background-color: #e3dede;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.button:pressed {
+    -fx-border-color: #0078D7;
+}
+
+.filter-button {
+    -fx-padding: 5px 20px; /* Reduce vertical padding for smaller height */
+    -fx-font-size: 14px; /* Optional: tweak font if needed */
+}
+
+.text-field {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+}
+
+.table-view {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.table-column {
+    -fx-font-weight: bold;
+}
+
+.row-count-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+

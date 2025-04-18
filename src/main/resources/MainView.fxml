@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dumindut.servicelettergenerator.MainController"
+            stylesheets="@styles.css">
+    <top>
+        <VBox>
+            <MenuBar fx:id="menuBar" style="-fx-pref-width: 100%;">
+                <Menu text="File">
+                    <MenuItem text="Close" onAction="#handleClose"/>
+                </Menu>
+                <Menu text="Help">
+                    <MenuItem text="Issue troubleshooting" onAction="#handleIssueTroubleshooting"/>
+                    <MenuItem text="User manual" onAction="#handleUserManual"/>
+                </Menu>
+                <Menu text="About">
+                    <MenuItem text="About" onAction="#handleAbout"/>
+                </Menu>
+            </MenuBar>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20px;">
+            <VBox alignment="CENTER" style="-fx-padding: 20px; -fx-background-color: #ffffff;">
+                <ImageView fitHeight="100" fitWidth="100">
+                    <image>
+                        <Image url="@images/logo.png" />
+                    </image>
+                </ImageView>
+                <Label fx:id="titleLabel" text="Service Letter Generator" />
+                <Label fx:id="subtitleLabel" text="Maliyadeva College OBA" />
+
+                <!-- Separator for Clear Visual Separation -->
+                <!--            <Separator style="-fx-background-color: black; -fx-padding: 1px;" />-->
+                <Separator/>
+            </VBox>
+            <VBox spacing="15" style="-fx-padding: 20px; -fx-background-color: #f8f8f8; -fx-border-color: black; -fx-border-width: 1px;">
+
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Upload Excel File" fx:id="btnUpload" />
+                    <Button text="Generate Document" fx:id="btnGenerate" />
+                    <Button text="Generate All Documents" fx:id="btnGenerateAll" />
+                    <Button text="Clean Database" fx:id="btnClean" />
+                </HBox>
+
+    <!--            <Separator style="-fx-background-color: lightgray; -fx-padding: 1px;" />-->
+                    <Separator/>
+                <HBox spacing="10">
+                    <Label text="Filter data" style="-fx-font-weight: bold;" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Name:" />
+                    <TextField fx:id="txtName" />
+                    <Label text="Membership No:" />
+                    <TextField fx:id="txtMembershipNo" />
+                    <Label text="Project Period:" />
+                    <TextField fx:id="txtProjectPeriod" />
+                    <Button fx:id="btnFilter" text="Filter" styleClass="filter-button"/>
+                    <Button fx:id="btnClearFilter" text="Clear Filter" styleClass="filter-button"/>
+                    <!-- Spacer to push the row-count-box to the right -->
+                    <Region HBox.hgrow="ALWAYS" />
+                    <HBox>
+                        <Label text="Table row count:" styleClass="row-count-label" />
+                        <Label fx:id="lblRowCount" text="10" styleClass="row-count-label" />
+                    </HBox>
+                </HBox>
+
+                <TableView fx:id="tableView">
+                    <columns>
+                        <TableColumn fx:id="nameCol" text="NAME" />
+                        <TableColumn fx:id="membershipNoCol" text="MEMBERSHIP NO" />
+                        <TableColumn fx:id="projectCol" text="PROJECT" />
+                        <TableColumn fx:id="projectCodeCol" text="PROJECT CODE" />
+                        <TableColumn fx:id="projectDateCol" text="PROJECT DATE" />
+                        <TableColumn fx:id="subCommitteeCol" text="SUB COMMITTEE" />
+                        <TableColumn fx:id="projectPeriodCol" text="PROJECT PERIOD" />
+                        <TableColumn fx:id="documentIdCol" text="LETTER NO" />
+                        <TableColumn fx:id="documentDateCol" text="LETTER DATE" />
+                        <TableColumn fx:id="dbKey" text="DB KEY" />
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+    <bottom>
+        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+            <ProgressIndicator fx:id="progressIndicator" visible="false" />
+            <Label fx:id="statusLabel" text="" visible="false" />
+
+            <!-- Bottom right copyright label -->
+            <HBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="© 2025 Maliyadeva College OBA" style="-fx-font-size: 12px;"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>
+
