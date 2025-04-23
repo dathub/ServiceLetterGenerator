@@ -92,8 +92,8 @@ public class MainController {
         progressIndicator.setVisible(false);
         statusLabel.setVisible(false);
         btnUpload.setOnAction(e -> handleUpload());
-        btnGenerate.setOnAction(e -> handleGenerate());
-        btnGenerateAll.setOnAction(e -> handleGenerateAll());
+        btnGenerate.setOnAction(e -> handleDocumentGenerate());
+        btnGenerateAll.setOnAction(e -> handleGenerateAllDocuments());
         btnClean.setOnAction(e -> handleClean());
         btnFilter.setOnAction(e -> applyFilter());
         btnClearFilter.setOnAction(e -> applyClearFilter());
@@ -113,7 +113,7 @@ public class MainController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Issue Troubleshooting");
         alert.setHeaderText(null);
-        alert.setContentText("Steps to troubleshoot issues go here...");
+        alert.setContentText("For application issues, please contact < Main developer - J.G.D.A.Thilakaratne (2010 Batch), Whatsapp 0716319494 >");
         alert.showAndWait();
     }
 
@@ -131,10 +131,10 @@ public class MainController {
     private void handleAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
-        alert.setHeaderText(" Service Letter Generator");
+        alert.setHeaderText(null);
         alert.setContentText("This application was developed to ease the Service Letter issuing process. Earlier, " +
-                "a separate Service Letters were issued for each contribution. This application will save the " +
-                "labour cost, stationary cost, printing cost, etc. ");
+                "a separate Service Letters were issued for each member contribution. This application will provide a " +
+                "consolidated service letter for all member contributions.");
         alert.showAndWait();
     }
 
@@ -145,9 +145,13 @@ public class MainController {
         fileChooser.setTitle("Select Excel File");
 
         File file = fileChooser.showOpenDialog(new Stage());
-        if (file != null) {
-            processExcelFile(file);
+
+        if (file == null) {
+            logger.info("File selection cancelled.");
+            return; // or return false, or exit the method early
         }
+
+        processExcelFile(file);
     }
 
     private void processExcelFile(File file) {
@@ -166,19 +170,23 @@ public class MainController {
         }
     }
 
-    private void handleGenerate() {
+    private void handleDocumentGenerate() {
         logger.debug("Generate PDFs clicked");
 
         ObservableList<FileRecord> dataSource = tableView.getItems();
 
         //generateSingleDocumentForAllItemsForMember(dataSource);
         File directoryToSave = getSaveLocation();
+        if (directoryToSave == null) {
+            logger.info("Directory selection cancelled.");
+            return; // or exit early
+        }
         boolean success = generateDocumentsForMember(dataSource, directoryToSave);
 
         if(success) {
             showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
         } else {
-            showNotificationAlert("Error occurred when generating the documents", Alert.AlertType.ERROR);
+            ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
         }
     }
 
@@ -250,13 +258,14 @@ public class MainController {
 
     private boolean generateDocumentsForMember(ObservableList<FileRecord> dataSource, File directoryToSave) {
 
+        documentGenerationErrors.clear();
+
         if(dataSource.isEmpty()){
             logger.error("No data in the table view");
-            showNotificationAlert("No data in the table view.", Alert.AlertType.ERROR);
+            documentGenerationErrors.add("No data in the table view");
             return false;
         }
 
-        documentGenerationErrors.clear();
         Set<String> singularCheckForMemberName = new HashSet<>();
         Set<String> singularCheckForMemberId = new HashSet<>();
         Set<String> singularCheckForProjectPeriod = new HashSet<>();
@@ -306,13 +315,13 @@ public class MainController {
 
         if(singularCheckForMemberName.size() != 1 || singularCheckForMemberId.size() != 1) {
             logger.error("filteredData is not for a single user");
-            showNotificationAlert("Table contains information for multiple users. Please filter the data for a single user.", Alert.AlertType.ERROR);
+            documentGenerationErrors.add("Table contains information for multiple users. Please filter the data for a single user.");
             return false;
         }
 
         if(singularCheckForProjectPeriod.size() != 1) {
             logger.error("filteredData is not for a single project period");
-            showNotificationAlert("Table contains information for multiple project periods. Please filter the data for a single project period.", Alert.AlertType.ERROR);
+            documentGenerationErrors.add("Table contains information for multiple project periods. Please filter the data for a single project period.");
             return false;
         }
 
@@ -336,8 +345,10 @@ public class MainController {
             for (String dbKey: chunkDbKeys) {
                 boolean success = dbHandler.updateDBDocId(dbKey, docId);
                 if(!success){
-                    logger.error("Document Id DB update failed for User["+ firstRecord.getMembershipNo() + "] - DB key - " + dbKey + "  | Document Id - " + docId);
-                    return fileGenerationSuccess;
+                    String error = "Document Id DB update failed for User["+ firstRecord.getMembershipNo() + "] - DB key - " + dbKey + "  | Document Id - " + docId;
+                    logger.error(error);
+                    documentGenerationErrors.add(error);
+                    return false;
                 }
             }
 
@@ -380,7 +391,16 @@ public class MainController {
     }
 
     private String generateDocumentId(String membershipNo) {
-        return membershipNo + "-" + System.currentTimeMillis();
+
+        String salt = "DAT";
+        String combined = membershipNo + salt;
+        int hash = 0;
+        for (char c:combined.toCharArray()) {
+            hash += (int)c;
+        }
+        hash = hash % 100000;
+
+        return membershipNo + "-" + hash;
     }
 
     private String generateLetterDate(String membershipNo) {
@@ -398,16 +418,26 @@ public class MainController {
         return documentDate != null ? documentDate : "";
     }
 
-    private void handleGenerateAll() {
+    private void handleGenerateAllDocuments() {
         //Get all unique membership nos from the DB.
         List<String> membershipIds = dbHandler.getUniqueMembershipNos();
         File directoryToSave = getSaveLocation();
+        if (directoryToSave == null) {
+            logger.info("Directory selection cancelled.");
+            return; // or exit early
+        }
 
         //For each membership no, create a datasource and generate documents
         boolean success = true;
-        for (String membershipNo : membershipIds) {
-            ObservableList<FileRecord> datasource = dbHandler.getRecordsByMembershipNo(membershipNo);
-            success = success && generateDocumentsForMember(datasource, directoryToSave);
+
+        if(membershipIds.isEmpty()){
+            documentGenerationErrors.add("No membership numbers found in DB. Please check whether data is available in the table view.");
+            success = false;
+        } else {
+            for (String membershipNo : membershipIds) {
+                ObservableList<FileRecord> datasource = dbHandler.getRecordsByMembershipNo(membershipNo);
+                success = success && generateDocumentsForMember(datasource, directoryToSave);
+            }
         }
 
         if(success) {

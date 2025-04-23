@@ -19,11 +19,8 @@ public class ErrorView {
         ListView<String> errorListView = new ListView<>();
         errorListView.getItems().addAll(errors);
 
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(e -> stage.close());
-
-        VBox layout = new VBox(10, errorLabel, errorListView, closeButton);
-        Scene scene = new Scene(layout, 500, 400);
+        VBox layout = new VBox(10, errorLabel, errorListView);
+        Scene scene = new Scene(layout, 550, 200);
 
         stage.setScene(scene);
         stage.show();

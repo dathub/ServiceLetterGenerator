@@ -5,37 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c71f9ff-caae-4ae6-bb2a-037d5ef22438" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/filerecords.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/identifier.sqlite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DatabaseHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Defs.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DocumentGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/ErrorView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/ExcelProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/FileRecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Validator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/MainView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/NotoSansSinhala-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/AppLogo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/LetterTemplate.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41c69917-750f-40fc-8251-7df02618af1b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/41c69917-750f-40fc-8251-7df02618af1b.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/filerecords.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/app.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.zip" beforeDir="false" afterPath="$PROJECT_DIR$/src.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/ErrorView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/ErrorView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +98,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MainController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.dumindut.servicelettergenerator.MainController" />
+      <module name="ServiceLetterGenerator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.dumindut.servicelettergenerator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServiceLetterGenerator [clean:clean,javafx:run]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -149,12 +138,14 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.MainController" />
       <item itemvalue="Application.DocumentGenerator" />
       <item itemvalue="Maven.ServiceLetterGenerator [clean:clean,javafx:run]" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Maven.ServiceLetterGenerator [clean:clean,javafx:run]" />
+        <item itemvalue="Application.MainController" />
         <item itemvalue="Application.DocumentGenerator" />
       </list>
     </recent_temporary>
@@ -191,7 +182,9 @@
       <workItem from="1744600731952" duration="1643000" />
       <workItem from="1744608732676" duration="945000" />
       <workItem from="1744644484067" duration="3884000" />
-      <workItem from="1744718755685" duration="45948000" />
+      <workItem from="1744718755685" duration="47338000" />
+      <workItem from="1745311506299" duration="1211000" />
+      <workItem from="1745331863646" duration="6470000" />
     </task>
     <servers />
   </component>
