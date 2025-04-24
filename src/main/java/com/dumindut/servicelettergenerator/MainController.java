@@ -151,7 +151,38 @@ public class MainController {
             return; // or return false, or exit the method early
         }
 
-        processExcelFile(file);
+//        processExcelFile(file);
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                processExcelFile(file);
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            progressIndicator.setVisible(true);
+            statusLabel.setVisible(true);
+            statusLabel.setText("Uploading and processing Excel file...");
+        });
+
+        task.setOnSucceeded(e -> {
+            progressIndicator.setVisible(false);
+            statusLabel.setVisible(false);
+            setTableRowCountValue();
+            showNotificationAlert("Excel file processed successfully.", Alert.AlertType.INFORMATION);
+        });
+
+        task.setOnFailed(e -> {
+            progressIndicator.setVisible(false);
+            statusLabel.setVisible(false);
+            Throwable ex = task.getException();
+            logger.error("Error processing Excel file", ex);
+            showNotificationAlert("Failed to process Excel file: " + ex.getMessage(), Alert.AlertType.ERROR);
+        });
+
+        new Thread(task).start();
     }
 
     private void processExcelFile(File file) {
@@ -181,13 +212,41 @@ public class MainController {
             logger.info("Directory selection cancelled.");
             return; // or exit early
         }
-        boolean success = generateDocumentsForMember(dataSource, directoryToSave);
 
-        if(success) {
-            showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
-        } else {
-            ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
-        }
+        Task<Boolean> task = new Task<>() {
+            @Override
+            protected Boolean call() {
+                documentGenerationErrors.clear();
+                return generateDocumentsForMember(dataSource, directoryToSave, null);
+            }
+        };
+
+        task.setOnRunning(e -> {
+            progressIndicator.setVisible(true);
+            statusLabel.setVisible(true);
+            statusLabel.setText("Generating documents...");
+        });
+
+        task.setOnSucceeded(e -> {
+            progressIndicator.setVisible(false);
+            statusLabel.setVisible(false);
+            boolean success = task.getValue();
+            if (success) {
+                showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
+            } else {
+                ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
+            }
+        });
+
+        task.setOnFailed(e -> {
+            progressIndicator.setVisible(false);
+            statusLabel.setVisible(false);
+            Throwable ex = task.getException();
+            logger.error("Error generating documents", ex);
+            showNotificationAlert("Failed to generate documents: " + ex.getMessage(), Alert.AlertType.ERROR);
+        });
+
+        new Thread(task).start();
     }
 
     private void generateSingleDocumentForAllItemsForMember(ObservableList<FileRecord> dataSource) {
@@ -256,13 +315,17 @@ public class MainController {
         }
     }
 
-    private boolean generateDocumentsForMember(ObservableList<FileRecord> dataSource, File directoryToSave) {
+    private boolean generateDocumentsForMember(ObservableList<FileRecord> dataSource, File directoryToSave, String membershipNo) {
 
-        documentGenerationErrors.clear();
+        String memberInfoSuffix = ". ";
+        if(membershipNo != null){
+            memberInfoSuffix = " for Member - " + membershipNo + ". ";
+        }
 
         if(dataSource.isEmpty()){
-            logger.error("No data in the table view");
-            documentGenerationErrors.add("No data in the table view");
+            String err = "No data to generate document" + memberInfoSuffix;
+            logger.error(err);
+            documentGenerationErrors.add(err);
             return false;
         }
 
@@ -283,7 +346,6 @@ public class MainController {
             totalCount++;
 
             if((i != 0) && (i % MAX_PAGE_ENTRY_COUNT == 0)){
-                System.out.println("First IF - i= " + i + " | TotalCount= " + totalCount);
                 tableData.add(chunkDbKeys);
                 tableDataChunks.add(tableData);
                 i=0;
@@ -291,7 +353,6 @@ public class MainController {
                 tableData = new ArrayList<>();
                 tableData.add(headerData);
             } else {
-                System.out.println("Second IF - i= " + i + " | TotalCount= " + totalCount);
             }
 
             List<String> row = new ArrayList<>();
@@ -314,14 +375,16 @@ public class MainController {
         }
 
         if(singularCheckForMemberName.size() != 1 || singularCheckForMemberId.size() != 1) {
-            logger.error("filteredData is not for a single user");
-            documentGenerationErrors.add("Table contains information for multiple users. Please filter the data for a single user.");
+            String err = "Document generation failed" + memberInfoSuffix + "Data is not for a single user. Please filter the data for a single user.";
+            logger.error(err);
+            documentGenerationErrors.add(err);
             return false;
         }
 
         if(singularCheckForProjectPeriod.size() != 1) {
-            logger.error("filteredData is not for a single project period");
-            documentGenerationErrors.add("Table contains information for multiple project periods. Please filter the data for a single project period.");
+            String err = "Document generation failed" + memberInfoSuffix + "Data is not for a single project period. Please filter the data for a single project period.";
+            logger.error(err);
+            documentGenerationErrors.add(err);
             return false;
         }
 
@@ -419,6 +482,30 @@ public class MainController {
     }
 
     private void handleGenerateAllDocuments() {
+
+        //Ask for project period input
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Project Period Required");
+        dialog.setHeaderText("Enter the Project Period (e.g., 2022-2023)");
+        dialog.setContentText("Project Period:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isEmpty()) {
+            logger.info("Project period input cancelled.");
+            return;
+        }
+        String enteredProjectPeriod = result.get().trim();
+        if (enteredProjectPeriod.isEmpty()) {
+            showNotificationAlert("Project Period cannot be empty!", Alert.AlertType.WARNING);
+            return;
+        }
+
+        if (!enteredProjectPeriod.matches("\\d{4}-\\d{4}")) {
+            showNotificationAlert("Invalid Project Period format! Please use format: yyyy-yyyy (e.g., 2022-2023)", Alert.AlertType.ERROR);
+            return;
+        }
+
+
         //Get all unique membership nos from the DB.
         List<String> membershipIds = dbHandler.getUniqueMembershipNos();
         File directoryToSave = getSaveLocation();
@@ -427,24 +514,57 @@ public class MainController {
             return; // or exit early
         }
 
-        //For each membership no, create a datasource and generate documents
-        boolean success = true;
+        Task<Boolean> task = new Task<>() {
+            @Override
+            protected Boolean call() {
+                documentGenerationErrors.clear();
+                boolean success = true;
 
-        if(membershipIds.isEmpty()){
-            documentGenerationErrors.add("No membership numbers found in DB. Please check whether data is available in the table view.");
-            success = false;
-        } else {
-            for (String membershipNo : membershipIds) {
-                ObservableList<FileRecord> datasource = dbHandler.getRecordsByMembershipNo(membershipNo);
-                success = success && generateDocumentsForMember(datasource, directoryToSave);
+                if (membershipIds.isEmpty()) {
+                    documentGenerationErrors.add("No membership numbers found in DB. Please check whether data is available in the table view.");
+                    success = false;
+                } else {
+                    for (String membershipNo : membershipIds) {
+                        ObservableList<FileRecord> datasource = dbHandler.getRecordsByMembershipNo(membershipNo);
+
+                        ObservableList<FileRecord> filteredDatasource = datasource.filtered(
+                                record -> enteredProjectPeriod.equalsIgnoreCase(record.getProjectPeriod())
+                        );
+
+                        boolean ok = generateDocumentsForMember(filteredDatasource, directoryToSave, membershipNo);
+                        success = success && ok;
+                    }
+                }
+                return success;
             }
-        }
+        };
 
-        if(success) {
-            showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
-        } else {
-            ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
-        }
+        task.setOnRunning(e -> {
+            progressIndicator.setVisible(true);
+            statusLabel.setVisible(true);
+            statusLabel.setText("Generating all documents...");
+        });
+
+        task.setOnSucceeded(e -> {
+            progressIndicator.setVisible(false);
+            statusLabel.setVisible(false);
+            boolean success = task.getValue();
+            if (success) {
+                showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
+            } else {
+                ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
+            }
+        });
+
+        task.setOnFailed(e -> {
+            progressIndicator.setVisible(false);
+            statusLabel.setVisible(false);
+            Throwable ex = task.getException();
+            logger.error("Error generating all documents", ex);
+            showNotificationAlert("Failed to generate documents: " + ex.getMessage(), Alert.AlertType.ERROR);
+        });
+
+        new Thread(task).start();
     }
 
     private void handleClean() {

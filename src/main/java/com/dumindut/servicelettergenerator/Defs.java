@@ -6,7 +6,7 @@ public class Defs {
 
     public static final int COL_COUNT = 5;
 
-    public static final int MAX_FILE_ROW_COUNT = 2000;
+    public static final int MAX_FILE_ROW_COUNT = 20000;
     public static final int MAX_PAGE_ENTRY_COUNT = 10;
     public static final String COL_NAME = "NAME";
     public static final String COL_MEMBERSHIP_NO = "MEMBERSHIP NO";

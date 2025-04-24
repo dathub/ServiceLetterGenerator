@@ -9,7 +9,10 @@
         </File>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Logger name="com.dumindut.servicelettergenerator" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="info">
             <AppenderRef ref="Console" />
             <AppenderRef ref="FileLogger" />
         </Root>
