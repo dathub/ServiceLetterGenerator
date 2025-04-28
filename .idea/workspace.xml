@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ServiceLetterGenerator:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c71f9ff-caae-4ae6-bb2a-037d5ef22438" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/applogoicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/filerecords.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/createinstaller.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DatabaseHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/ExcelProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/ExcelProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/FileRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/FileRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MainView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +47,6 @@
   <component name="MavenRunner">
     <option name="skipTests" value="true" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
-}</component>
   <component name="ProjectId" id="2uLGiwMOQLO7tuKr5XmXhao0AId" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -58,20 +58,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Attach to process.localhost:8000.executor": "ProcessAttachDebug",
-    "Maven.ServiceLetterGenerator [clean,install].executor": "Run",
-    "Maven.ServiceLetterGenerator [clean:clean,javafx:run].executor": "Run",
-    "Maven.ServiceLetterGenerator [org.openjfx:javafx-maven-plugin:0.0.8:jlink...].executor": "Run",
-    "Maven.ServiceLetterGenerator [org.openjfx:javafx-maven-plugin:0.0.8:run...].executor": "Run",
+    "Application.SLGApp.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Personal/Projects/ServiceLetterGenerator/pom.xml",
+    "git-widget-placeholder": "Merging master",
+    "last_opened_file_path": "D:/ProgramFiles/javafx-sdk-21.0.7/bin/vcruntime140_1.dll",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -79,8 +72,8 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.30082798",
     "settings.editor.selected.configurable": "MavenSettings",
     "vue.rearranger.settings.migration": "true"
   },
@@ -100,29 +93,11 @@
       <recent name="D:\Personal\Projects\ServiceLetterGenerator\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.ServiceLetterGenerator [clean:clean,javafx:run]">
-    <configuration name="DocumentGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.dumindut.servicelettergenerator.DocumentGenerator" />
+  <component name="RunManager" selected="Application.SLGApp">
+    <configuration name="SLGApp" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.dumindut.servicelettergenerator.App" />
       <module name="ServiceLetterGenerator" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.dumindut.servicelettergenerator.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.dumindut.servicelettergenerator.MainController" />
-      <module name="ServiceLetterGenerator" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.dumindut.servicelettergenerator.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="VM_PARAMETERS" value="--module-path &quot;D:\ProgramFiles\javafx-sdk-21.0.7\lib&quot; --add-modules javafx.controls,javafx.fxml,javafx.base" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -159,15 +134,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.MainController" />
-      <item itemvalue="Application.DocumentGenerator" />
+      <item itemvalue="Application.SLGApp" />
       <item itemvalue="Maven.ServiceLetterGenerator [clean:clean,javafx:run]" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Maven.ServiceLetterGenerator [clean:clean,javafx:run]" />
-        <item itemvalue="Application.MainController" />
-        <item itemvalue="Application.DocumentGenerator" />
       </list>
     </recent_temporary>
   </component>
@@ -208,7 +180,14 @@
       <workItem from="1745331863646" duration="6470000" />
       <workItem from="1745376988589" duration="4230000" />
       <workItem from="1745417745639" duration="10320000" />
-      <workItem from="1745486509070" duration="2542000" />
+      <workItem from="1745486509070" duration="7104000" />
+      <workItem from="1745543048529" duration="774000" />
+      <workItem from="1745543876941" duration="642000" />
+      <workItem from="1745557089424" duration="4490000" />
+      <workItem from="1745591396387" duration="3040000" />
+      <workItem from="1745661080635" duration="17170000" />
+      <workItem from="1745765088016" duration="1545000" />
+      <workItem from="1745816067826" duration="2000000" />
     </task>
     <servers />
   </component>
