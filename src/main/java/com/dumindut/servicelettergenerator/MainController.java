@@ -151,13 +151,10 @@ public class MainController {
             return; // or return false, or exit the method early
         }
 
-//        processExcelFile(file);
-
-        Task<Void> task = new Task<>() {
+        Task<Boolean> task = new Task<>() {
             @Override
-            protected Void call() {
-                processExcelFile(file);
-                return null;
+            protected Boolean call() {
+                return processExcelFile(file);
             }
         };
 
@@ -171,7 +168,14 @@ public class MainController {
             progressIndicator.setVisible(false);
             statusLabel.setVisible(false);
             setTableRowCountValue();
-            showNotificationAlert("Excel file processed successfully.", Alert.AlertType.INFORMATION);
+            boolean success = task.getValue();
+            if (success) {
+                showNotificationAlert("Excel file processed successfully.", Alert.AlertType.INFORMATION);
+            } else {
+                String title = "Excel File Validation Errors";
+                String errorLabelTxt = "The following errors were found in the uploaded Excel file:";
+                ErrorView.showErrors(validator.getErrors(), title, errorLabelTxt); // Show errors in a pop-up
+            }
         });
 
         task.setOnFailed(e -> {
@@ -185,7 +189,7 @@ public class MainController {
         new Thread(task).start();
     }
 
-    private void processExcelFile(File file) {
+    private boolean processExcelFile(File file) {
         validator.resetErrors();
         if (validator.validateFile(file)) {
             excelProcessor.processExcel(file, dbHandler);
@@ -194,11 +198,9 @@ public class MainController {
             filteredData.setPredicate(null); // Reset predicate to allow new data
             filteredData = new FilteredList<>(dbHandler.getAllRecords(), p -> true);
             tableView.setItems(filteredData);
-        } else {
-            String title = "Excel File Validation Errors";
-            String errorLabelTxt = "The following errors were found in the uploaded Excel file:";
-            ErrorView.showErrors(validator.getErrors(), title, errorLabelTxt); // Show errors in a pop-up
+            return true;
         }
+        return false;
     }
 
     private void handleDocumentGenerate() {
