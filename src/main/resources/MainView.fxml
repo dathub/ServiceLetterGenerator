@@ -72,16 +72,18 @@
 
                 <TableView fx:id="tableView">
                     <columns>
-                        <TableColumn fx:id="nameCol" text="NAME" />
-                        <TableColumn fx:id="membershipNoCol" text="MEMBERSHIP NO" />
-                        <TableColumn fx:id="projectCol" text="PROJECT" />
-                        <TableColumn fx:id="projectCodeCol" text="PROJECT CODE" />
-                        <TableColumn fx:id="projectDateCol" text="PROJECT DATE" />
-                        <TableColumn fx:id="subCommitteeCol" text="SUB COMMITTEE" />
-                        <TableColumn fx:id="projectPeriodCol" text="PROJECT PERIOD" />
-                        <TableColumn fx:id="documentIdCol" text="LETTER NO" />
-                        <TableColumn fx:id="documentDateCol" text="LETTER DATE" />
-                        <TableColumn fx:id="dbKey" text="DB KEY" />
+                        <TableColumn fx:id="nameCol" text="NAME" prefWidth="200" />
+                        <TableColumn fx:id="membershipNoCol" text="MEMBERSHIP NO" prefWidth="150" />
+                        <TableColumn fx:id="projectCol" text="PROJECT" prefWidth="200" />
+                        <TableColumn fx:id="projectCodeCol" text="PROJECT CODE" prefWidth="150" />
+                        <TableColumn fx:id="projectDateCol" text="PROJECT DATE" prefWidth="150" />
+                        <TableColumn fx:id="subCommitteeCol" text="SUB COMMITTEE" prefWidth="150" />
+                        <TableColumn fx:id="projectPeriodCol" text="PROJECT PERIOD" prefWidth="150" />
+                        <TableColumn fx:id="lastUpdatedTimeColumn" text="LAST UPDATED TIME" prefWidth="150"/>
+                        <TableColumn fx:id="approvedByColumn" text="APPROVED BY" prefWidth="150"/>
+                        <TableColumn fx:id="documentIdCol" text="LETTER NO" prefWidth="180" />
+                        <TableColumn fx:id="documentDateCol" text="LETTER DATE" prefWidth="100" />
+                        <TableColumn fx:id="dbKey" text="DB KEY" prefWidth="100" />
                     </columns>
                 </TableView>
             </VBox>

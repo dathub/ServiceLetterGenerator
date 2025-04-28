@@ -35,7 +35,8 @@ public class ExcelProcessor {
                 String subCommittee = getCellValue(row.getCell(5));
                 String projectPeriod = getCellValue(row.getCell(6));
 
-                FileRecord fileRecord = new FileRecord(name, membershipNo, project,projectCode , projectDate, subCommittee, "", "", projectPeriod, "");
+                FileRecord fileRecord = new FileRecord(name, membershipNo, project,projectCode , projectDate,
+                        subCommittee, "", "", projectPeriod, "","","");
 
                 logger.debug(fileRecord.toString());
                 dbHandler.insertData(fileRecord);

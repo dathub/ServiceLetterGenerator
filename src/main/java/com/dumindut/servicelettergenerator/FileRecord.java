@@ -14,10 +14,14 @@ public class FileRecord {
     private final StringProperty documentId;
     private final StringProperty documentDate;
     private final StringProperty projectPeriod;
-
     private final StringProperty dbPrimaryKeyId;
+    private final StringProperty lastUpdatedTime;
+    private final StringProperty approvedBy;
 
-    public FileRecord(String name, String membershipNo, String project, String projectCode, String projectDate, String subCommittee, String documentId, String documentDate, String projectPeriod, String dbKey) {
+
+    public FileRecord(String name, String membershipNo, String project, String projectCode, String projectDate,
+                      String subCommittee, String documentId, String documentDate, String projectPeriod, String dbKey,
+                      String lastUpdatedTime, String approvedBy) {
         this.name = new SimpleStringProperty(name);
         this.membershipNo = new SimpleStringProperty(membershipNo);
         this.project = new SimpleStringProperty(project);
@@ -28,6 +32,8 @@ public class FileRecord {
         this.documentDate = new SimpleStringProperty(documentDate);
         this.projectPeriod = new SimpleStringProperty(projectPeriod);
         this.dbPrimaryKeyId = new SimpleStringProperty(dbKey);
+        this.lastUpdatedTime = new SimpleStringProperty(lastUpdatedTime);
+        this.approvedBy = new SimpleStringProperty(approvedBy);
     }
 
     // JavaFX Properties (for TableView binding)
@@ -71,6 +77,15 @@ public class FileRecord {
         return dbPrimaryKeyId;
     }
 
+    public StringProperty lastUpdatedTimeProperty() {
+        return lastUpdatedTime;
+    }
+
+    public StringProperty approvedByPropertyProperty() {
+        return approvedBy;
+    }
+
+
     // Standard Getter Methods (for database storage)
     public String getName() {
         return name.get();
@@ -111,4 +126,13 @@ public class FileRecord {
     public String getDbPrimaryKeyId() {
         return dbPrimaryKeyId.get();
     }
+
+    public String getLastUpdatedTime() {
+        return lastUpdatedTime.get();
+    }
+
+    public String getApprovedBy() {
+        return approvedBy.get();
+    }
+
 }

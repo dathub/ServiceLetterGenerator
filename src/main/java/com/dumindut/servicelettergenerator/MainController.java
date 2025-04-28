@@ -66,6 +66,10 @@ public class MainController {
     @FXML
     private TableColumn<FileRecord, String> projectPeriodCol;
     @FXML
+    private TableColumn<FileRecord, String> lastUpdatedTimeColumn;
+    @FXML
+    private TableColumn<FileRecord, String> approvedByColumn;
+    @FXML
     private TableColumn<FileRecord, String> documentIdCol;
     @FXML
     private TableColumn<FileRecord, String> documentDateCol;
@@ -594,16 +598,8 @@ public class MainController {
         documentIdCol.setCellValueFactory(cellData -> cellData.getValue().documentIdProperty());
         documentDateCol.setCellValueFactory(cellData -> cellData.getValue().documentDateProperty());
         dbKey.setCellValueFactory(cellData -> cellData.getValue().dbPrimaryKeyIdProperty());
-
-        nameCol.setPrefWidth(200);
-        membershipNoCol.setPrefWidth(150);
-        projectCol.setPrefWidth(200);
-        projectCodeCol.setPrefWidth(150);
-        projectDateCol.setPrefWidth(100);
-        subCommitteeCol.setPrefWidth(150);
-        projectPeriodCol.setPrefWidth(150);
-        documentIdCol.setPrefWidth(180);
-        documentDateCol.setPrefWidth(100);
+        lastUpdatedTimeColumn.setCellValueFactory(cellData -> cellData.getValue().dbPrimaryKeyIdProperty());
+        approvedByColumn.setCellValueFactory(cellData -> cellData.getValue().dbPrimaryKeyIdProperty());
     }
 
     public void loadTableData() {

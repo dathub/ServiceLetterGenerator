@@ -30,6 +30,8 @@ public class DatabaseHandler {
                 document_id TEXT,
                 document_date TEXT,
                 project_period TEXT,
+                last_updated_time TEXT,
+                approved_by TEXT,
                 UNIQUE(name, membership_no, project, project_date, sub_committee,project_period)  -- Prevents duplicate
             )""";
         try (var conn = DriverManager.getConnection(DB_URL);
@@ -83,7 +85,9 @@ public class DatabaseHandler {
                         rs.getString("document_id"),
                         rs.getString("document_date"),
                         rs.getString("project_period"),
-                        rs.getString("id")));
+                        rs.getString("id"),
+                        rs.getString("last_updated_time"),
+                        rs.getString("approved_by")));
             }
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -245,7 +249,9 @@ public class DatabaseHandler {
                         rs.getString("document_id"),
                         rs.getString("document_date"),
                         rs.getString("project_period"),
-                        rs.getString("id")
+                        rs.getString("id"),
+                        rs.getString("last_updated_time"),
+                        rs.getString("approved_by")
                 );
                 records.add(record);
             }
