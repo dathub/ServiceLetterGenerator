@@ -52,8 +52,8 @@ public class DatabaseHandler {
         }
 
         String sql = """
-                INSERT INTO filerecords (name, membership_no, project, project_date, sub_committee, project_period) 
-                VALUES (?, ?, ?, ?, ?, ?)""";
+                INSERT INTO filerecords (name, membership_no, project, project_date, sub_committee, project_period,last_updated_time,approved_by) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)""";
         try (var conn = DriverManager.getConnection(DB_URL);
              var pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, fileRecord.getName());
@@ -62,6 +62,8 @@ public class DatabaseHandler {
             pstmt.setString(4, fileRecord.getProjectDate()); // Storing as TEXT (ISO format)
             pstmt.setString(5, fileRecord.getSubCommittee());
             pstmt.setString(6, fileRecord.getProjectPeriod());
+            pstmt.setString(7,fileRecord.getLastUpdatedTime());
+            pstmt.setString(8,fileRecord.getApprovedBy());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);

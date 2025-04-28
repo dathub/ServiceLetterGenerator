@@ -8,13 +8,15 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.dumindut.servicelettergenerator.Defs.DATE_PATTERN;
 
 public class ExcelProcessor {
     private static final Logger logger = LoggerFactory.getLogger(ExcelProcessor.class);
-    public void processExcel(File file, DatabaseHandler dbHandler) {
+    public void processExcel(File file, DatabaseHandler dbHandler, String approvalComment) {
         try (FileInputStream fis = new FileInputStream(file);
              Workbook workbook = new XSSFWorkbook(fis)) {
 
@@ -35,8 +37,10 @@ public class ExcelProcessor {
                 String subCommittee = getCellValue(row.getCell(5));
                 String projectPeriod = getCellValue(row.getCell(6));
 
+                String lastUpdatedTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
                 FileRecord fileRecord = new FileRecord(name, membershipNo, project,projectCode , projectDate,
-                        subCommittee, "", "", projectPeriod, "","","");
+                        subCommittee, "", "", projectPeriod, "",lastUpdatedTime,approvalComment);
 
                 logger.debug(fileRecord.toString());
                 dbHandler.insertData(fileRecord);

@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.geometry.Insets;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +39,7 @@ public class MainController {
     @FXML
     private Button btnGenerateAll;
     @FXML
-    private Button btnClean;
+    private Button btnCleanDB;
     @FXML
     private Button btnFilter;
     @FXML
@@ -98,7 +99,7 @@ public class MainController {
         btnUpload.setOnAction(e -> handleUpload());
         btnGenerate.setOnAction(e -> handleDocumentGenerate());
         btnGenerateAll.setOnAction(e -> handleGenerateAllDocuments());
-        btnClean.setOnAction(e -> handleClean());
+        btnCleanDB.setOnAction(e -> handleCleanDB());
         btnFilter.setOnAction(e -> applyFilter());
         btnClearFilter.setOnAction(e -> applyClearFilter());
         setupTableView();
@@ -144,6 +145,21 @@ public class MainController {
 
     private void handleUpload() {
         logger.debug("Upload button clicked");
+
+        FileUploadApprovalDialog approvalDialog = new FileUploadApprovalDialog();
+        boolean approved = approvalDialog.showAndWait();
+
+        if(!approved){
+            logger.debug("Upload not approved");
+            return;
+        }
+
+
+        String initiatedBy = approvalDialog.getActionInitiatedBy();
+        String approvedBy = approvalDialog.getActionApprovedBy();
+        String comment = approvalDialog.getComment();
+        String finalApprovalTxt = "Initiated [ " + initiatedBy + " ] and Approved [ " + approvedBy + " ]";
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xls", "*.xlsx"));
         fileChooser.setTitle("Select Excel File");
@@ -158,7 +174,7 @@ public class MainController {
         Task<Boolean> task = new Task<>() {
             @Override
             protected Boolean call() {
-                return processExcelFile(file);
+                return processExcelFile(file, finalApprovalTxt);
             }
         };
 
@@ -193,10 +209,10 @@ public class MainController {
         new Thread(task).start();
     }
 
-    private boolean processExcelFile(File file) {
+    private boolean processExcelFile(File file, String approvalComment) {
         validator.resetErrors();
         if (validator.validateFile(file)) {
-            excelProcessor.processExcel(file, dbHandler);
+            excelProcessor.processExcel(file, dbHandler, approvalComment);
 
             // Refresh filteredData to reflect new records
             filteredData.setPredicate(null); // Reset predicate to allow new data
@@ -573,7 +589,7 @@ public class MainController {
         new Thread(task).start();
     }
 
-    private void handleClean() {
+    private void handleCleanDB() {
         logger.debug("Clean Database clicked");
         if (showConfirmationDialog()) {
             // Proceed to clean database
@@ -598,8 +614,8 @@ public class MainController {
         documentIdCol.setCellValueFactory(cellData -> cellData.getValue().documentIdProperty());
         documentDateCol.setCellValueFactory(cellData -> cellData.getValue().documentDateProperty());
         dbKey.setCellValueFactory(cellData -> cellData.getValue().dbPrimaryKeyIdProperty());
-        lastUpdatedTimeColumn.setCellValueFactory(cellData -> cellData.getValue().dbPrimaryKeyIdProperty());
-        approvedByColumn.setCellValueFactory(cellData -> cellData.getValue().dbPrimaryKeyIdProperty());
+        lastUpdatedTimeColumn.setCellValueFactory(cellData -> cellData.getValue().lastUpdatedTimeProperty());
+        approvedByColumn.setCellValueFactory(cellData -> cellData.getValue().approvedByProperty());
     }
 
     public void loadTableData() {

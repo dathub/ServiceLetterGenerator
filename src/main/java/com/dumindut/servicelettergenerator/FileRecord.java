@@ -81,7 +81,7 @@ public class FileRecord {
         return lastUpdatedTime;
     }
 
-    public StringProperty approvedByPropertyProperty() {
+    public StringProperty approvedByProperty() {
         return approvedBy;
     }
 

@@ -33,4 +33,18 @@ public class Defs {
     public static final String VAR_LETTER_DATE = "VAR_5";
     public static final String VAR_ROW_COUNT = "VAR_6";
     public static final String VAR_SERVICE_PERIOD = "VAR_7";
+
+    public static final String DB_COL_ID = "id";
+    public static final String DB_COL_NAME = "name";
+    public static final String DB_COL_MEMBERSHIP_NO = "membership_no";
+    public static final String DB_COL_PROJECT = "project";
+    public static final String DB_COL_PROJECT_CODE = "project_code";
+    public static final String DB_COL_PROJECT_DATE = "project_date";
+    public static final String DB_COL_SUB_COMMITTEE = "sub_committee";
+    public static final String DB_COL_DOCUMENT_ID = "document_id";
+    public static final String DB_COL_DOCUMENT_DATE = "document_date";
+    public static final String DB_COL_PROJECT_PERIOD = "project_period";
+    public static final String DB_COL_LAST_UPDATED_TIME = "last_updated_time";
+    public static final String DB_COL_APPORVED_BY = "approved_by";
+
 }
