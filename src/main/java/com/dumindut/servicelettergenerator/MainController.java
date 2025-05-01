@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.geometry.Insets;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,7 +85,7 @@ public class MainController {
 
     private ObservableList<FileRecord> masterData;
     private FilteredList<FileRecord> filteredData;
-    private final DatabaseHandler dbHandler = new DatabaseHandler();
+    private final DatabaseHandler dbHandler = new SQLiteDatabaseHandler();
     private final Validator validator = new Validator();
     private final ExcelProcessor excelProcessor = new ExcelProcessor();
     private DocumentGenerator wordToPDFGenerator = new DocumentGenerator();
@@ -158,7 +157,7 @@ public class MainController {
         String initiatedBy = approvalDialog.getActionInitiatedBy();
         String approvedBy = approvalDialog.getActionApprovedBy();
         String comment = approvalDialog.getComment();
-        String finalApprovalTxt = "Initiated [ " + initiatedBy + " ] and Approved [ " + approvedBy + " ]";
+        String finalApprovalTxt = "Actioned by [ " + initiatedBy + " ] and Approved by [ " + approvedBy + " ]";
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xls", "*.xlsx"));
@@ -667,8 +666,9 @@ public class MainController {
 
             // Create context menu
             ContextMenu contextMenu = new ContextMenu();
-            MenuItem copyItem = new MenuItem("Copy");
 
+            // Copy menu item
+            MenuItem copyItem = new MenuItem("Copy cell value");
             copyItem.setOnAction(e -> {
                 String cellValue = cell.getText();
                 if (cellValue != null) {
@@ -676,7 +676,25 @@ public class MainController {
                 }
             });
 
-            contextMenu.getItems().add(copyItem);
+            // Edit menu item
+            MenuItem editItem = new MenuItem("Edit record");
+            editItem.setOnAction(e -> {
+                FileRecord selectedRecord = tableView.getSelectionModel().getSelectedItem();
+                if (selectedRecord != null) {
+                    openEditDialog(selectedRecord); // You will implement this
+                }
+            });
+
+            // Delete menu item
+            MenuItem deleteItem = new MenuItem("Delete record");
+            deleteItem.setOnAction(e -> {
+                FileRecord selectedRecord = tableView.getSelectionModel().getSelectedItem();
+                if (selectedRecord != null) {
+                    deleteRecord(selectedRecord); // You will implement this
+                }
+            });
+
+            contextMenu.getItems().addAll(copyItem, new SeparatorMenuItem(), editItem, deleteItem);
 
             // Set context menu only if the cell is not empty
             cell.setOnContextMenuRequested(event -> {
@@ -688,6 +706,13 @@ public class MainController {
             return cell;
         });
     }
+
+    private void deleteRecord(FileRecord selectedRecord) {
+    }
+
+    private void openEditDialog(FileRecord selectedRecord) {
+    }
+
 
     private void copyToClipboard(String text) {
         Clipboard clipboard = Clipboard.getSystemClipboard();

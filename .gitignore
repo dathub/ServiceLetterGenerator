@@ -13,6 +13,7 @@ target/
 *.iml
 *.ipr
 *.zip
+*.db
 
 ### Eclipse ###
 .apt_generated
@@ -38,7 +39,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
-
 .idea
 .mvn
 logs/
