@@ -44,12 +44,6 @@ public class SQLiteDatabaseHandler implements DatabaseHandler {
 
     @Override
     public void insertData(FileRecord fileRecord) {
-        if (isDuplicate(fileRecord.getName(), fileRecord.getMembershipNo(),
-                fileRecord.getProject(), fileRecord.getProjectDate(), fileRecord.getSubCommittee(), fileRecord.getProjectPeriod() )) {
-            logger.debug(String.format("Duplicate record found: %s - %s - %s - %s - %s - %s", fileRecord.getName(), fileRecord.getMembershipNo(),
-                    fileRecord.getProject(), fileRecord.getProjectDate(), fileRecord.getSubCommittee(), fileRecord.getProjectPeriod()));
-            return; // Stop if duplicate is found
-        }
 
         String sql = """
                 INSERT INTO filerecords (name, membership_no, project, project_date, sub_committee, project_period,last_updated_time,approved_by) 
@@ -70,16 +64,16 @@ public class SQLiteDatabaseHandler implements DatabaseHandler {
         }
     }
 
-    public boolean isDuplicate(String name, String membershipNo, String project, String projectDate, String subCommittee, String projectPeriod) {
+    public boolean isDuplicate(FileRecord fileRecord) {
         String sql = "SELECT COUNT(*) FROM filerecords WHERE name = ? AND membership_no = ? AND project = ? AND project_date = ? AND sub_committee = ? AND project_period = ?";
         try (var conn = DriverManager.getConnection(SQLiteDatabaseHandler.DB_URL);
              var pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, membershipNo);
-            pstmt.setString(3, project);
-            pstmt.setString(4, projectDate);
-            pstmt.setString(5, subCommittee);
-            pstmt.setString(6, projectPeriod);
+            pstmt.setString(1, fileRecord.getName());
+            pstmt.setString(2, fileRecord.getMembershipNo());
+            pstmt.setString(3, fileRecord.getProject());
+            pstmt.setString(4, fileRecord.getProjectDate());
+            pstmt.setString(5, fileRecord.getSubCommittee());
+            pstmt.setString(6, fileRecord.getProjectPeriod());
             var rs = pstmt.executeQuery();
             return rs.next() && rs.getInt(1) > 0;  // If count > 0, record exists
         } catch (SQLException e) {
@@ -276,17 +270,17 @@ public class SQLiteDatabaseHandler implements DatabaseHandler {
 
     @Override
     public void deleteRecord(FileRecord record) {
-        String sql = """
-        DELETE FROM filerecords
-        WHERE membership_no = ? AND project = ? AND project_period = ?
-        """;
+        String sql = "DELETE FROM filerecords WHERE name = ? AND membership_no = ? AND project = ? AND project_date = ? AND sub_committee = ? AND project_period = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, record.getMembershipNo());
-            pstmt.setString(2, record.getProject());
-            pstmt.setString(3, record.getProjectPeriod());
+            pstmt.setString(1, record.getName());
+            pstmt.setString(2, record.getMembershipNo());
+            pstmt.setString(3, record.getProject());
+            pstmt.setString(4, record.getProjectDate());
+            pstmt.setString(5, record.getSubCommittee());
+            pstmt.setString(6, record.getProjectPeriod());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -296,30 +290,11 @@ public class SQLiteDatabaseHandler implements DatabaseHandler {
 
     @Override
     public void updateRecord(FileRecord record) {
-        String sql = """
-        UPDATE filerecords
-        SET name = ?, project = ?, project_period = ?, last_updated_time = ?, approved_by = ?
-        WHERE membership_no = ? AND project = ? AND project_period = ?
-        """;
+        if(isDuplicate(record)) {
 
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, record.getName());
-            pstmt.setString(2, record.getProject());
-            pstmt.setString(3, record.getProjectPeriod());
-            pstmt.setString(4, record.getLastUpdatedTime());
-            pstmt.setString(5, record.getApprovedBy());
-
-            // WHERE clause keys
-            pstmt.setString(6, record.getMembershipNo());
-            pstmt.setString(7, record.getProject());
-            pstmt.setString(8, record.getProjectPeriod());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            logger.error("Error updating record", e);
         }
+
+        insertData(record);
     }
 
 

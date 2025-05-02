@@ -13,7 +13,7 @@ public interface DatabaseHandler {
 
     ObservableList<FileRecord> getAllRecords();
 
-    boolean isDuplicate(String name, String membershipNo, String project, String projectDate, String subCommittee, String projectPeriod);
+    boolean isDuplicate(FileRecord fileRecord);
 
     String getExistingDocumentId(String membershipNo);
 

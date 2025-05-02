@@ -11,6 +11,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
@@ -157,7 +159,7 @@ public class MainController {
         String initiatedBy = approvalDialog.getActionInitiatedBy();
         String approvedBy = approvalDialog.getActionApprovedBy();
         String comment = approvalDialog.getComment();
-        String finalApprovalTxt = "Actioned by [ " + initiatedBy + " ] and Approved by [ " + approvedBy + " ]";
+        String finalApprovalTxt = getFinalApprovalTxt(initiatedBy, approvedBy);
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xls", "*.xlsx"));
@@ -206,6 +208,11 @@ public class MainController {
         });
 
         new Thread(task).start();
+    }
+
+    private String getFinalApprovalTxt(String initiatedBy, String approvedBy) {
+        String finalApprovalTxt = "Actioned by [ " + initiatedBy + " ] and Approved by [ " + approvedBy + " ]";
+        return finalApprovalTxt;
     }
 
     private boolean processExcelFile(File file, String approvalComment) {
@@ -707,13 +714,6 @@ public class MainController {
         });
     }
 
-    private void deleteRecord(FileRecord selectedRecord) {
-    }
-
-    private void openEditDialog(FileRecord selectedRecord) {
-    }
-
-
     private void copyToClipboard(String text) {
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();
@@ -823,5 +823,136 @@ public class MainController {
         txtProjectPeriod.clear();
         refreshTableData();
     }
+
+    private void openEditDialog(FileRecord fileRecord) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Edit Record");
+        dialog.setHeaderText("Modify the selected record:");
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField nameField = new TextField(fileRecord.getName());
+        TextField membershipNoField = new TextField(fileRecord.getMembershipNo());
+        TextField projectField = new TextField(fileRecord.getProject());
+        TextField projectDateField = new TextField(fileRecord.getProjectDate());
+        TextField subCommitteeField = new TextField(fileRecord.getSubCommittee());
+        TextField projectPeriodField = new TextField(fileRecord.getProjectPeriod());
+
+        grid.add(new Label("Name:"), 0, 0); grid.add(nameField, 1, 0);
+        grid.add(new Label("Membership No:"), 0, 1); grid.add(membershipNoField, 1, 1);
+        grid.add(new Label("Project:"), 0, 2); grid.add(projectField, 1, 2);
+        grid.add(new Label("Project Date:"), 0, 3); grid.add(projectDateField, 1, 3);
+        grid.add(new Label("Sub Committee:"), 0, 4); grid.add(subCommitteeField, 1, 4);
+        grid.add(new Label("Project Period:"), 0, 5); grid.add(projectPeriodField, 1, 5);
+
+        Separator separator = new Separator();
+        grid.add(separator, 0, 6, 2, 1);
+
+        TextField initiatedByField = new TextField();
+        TextField approverField = new TextField();
+        TextArea commentArea = new TextArea();
+        commentArea.setPrefRowCount(3);
+
+        grid.add(new Label("Initiated By:"), 0, 7); grid.add(initiatedByField, 1, 7);
+        grid.add(new Label("Approved By:"), 0, 8); grid.add(approverField, 1, 8);
+        grid.add(new Label("Comment:"), 0, 9); grid.add(commentArea, 1, 9);
+
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (initiatedByField.getText().isBlank() || approverField.getText().isBlank() || commentArea.getText().isBlank()) {
+                showNotificationAlert("All approval fields must be filled.", Alert.AlertType.WARNING);
+                return;
+            }
+
+            String approvalTxt = getFinalApprovalTxt(initiatedByField.getText().trim(), approverField.getText().trim());
+
+            FileRecord newRecord = new FileRecord(
+                    nameField.getText().trim(),
+                    membershipNoField.getText().trim(),
+                    projectField.getText().trim(),
+                    "",
+                    projectDateField.getText().trim(),
+                    subCommitteeField.getText().trim(),
+                    "",
+                    "",
+                    projectPeriodField.getText().trim(),
+                    "",
+                    java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                    approvalTxt);
+
+            if (dbHandler.isDuplicate(newRecord)) {
+                logger.debug(String.format("Duplicate record found: %s - %s - %s - %s - %s - %s", fileRecord.getName(), fileRecord.getMembershipNo(),
+                        fileRecord.getProject(), fileRecord.getProjectDate(), fileRecord.getSubCommittee(), fileRecord.getProjectPeriod()));
+
+                showNotificationAlert("Already there is a record with these information. Please check again", Alert.AlertType.ERROR);
+                return; // Skip DB insert if duplicate is found
+            }
+            dbHandler.deleteRecord(fileRecord);
+            dbHandler.insertData(newRecord); // You must have this method in DatabaseHandler
+            refreshTableData();
+            showNotificationAlert("Record updated successfully.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    private void deleteRecord(FileRecord record) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Delete confirmation");
+        dialog.setHeaderText("Confirm deletion of the record below  and provide approval details");
+
+        // Summary label just after header
+        Label recordLabel = new Label(
+                record.getName() + " - " +
+                        record.getMembershipNo() + " - " +
+                        record.getProject() + " - " +
+                        record.getProjectDate() + " - " +
+                        record.getSubCommittee() + " - " +
+                        record.getProjectPeriod()
+        );
+        recordLabel.setStyle("-fx-font-weight: bold; -fx-padding: 0 0 10 0;");
+
+        VBox container = new VBox(10);
+        container.setPadding(new Insets(20, 150, 10, 10));
+
+        // Approval fields
+        GridPane approvalGrid = new GridPane();
+        approvalGrid.setHgap(10);
+        approvalGrid.setVgap(10);
+
+        TextField initiatedByField = new TextField();
+        TextField approverField = new TextField();
+        TextArea commentArea = new TextArea();
+        commentArea.setPrefRowCount(3);
+
+        approvalGrid.add(new Label("Initiated By:"), 0, 0); approvalGrid.add(initiatedByField, 1, 0);
+        approvalGrid.add(new Label("Approved By:"), 0, 1); approvalGrid.add(approverField, 1, 1);
+        approvalGrid.add(new Label("Comment:"), 0, 2); approvalGrid.add(commentArea, 1, 2);
+
+        // Combine record label + approval fields
+        container.getChildren().addAll(recordLabel, new Separator(), approvalGrid);
+
+        dialog.getDialogPane().setContent(container);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (initiatedByField.getText().isBlank() || approverField.getText().isBlank() || commentArea.getText().isBlank()) {
+                showNotificationAlert("All approval fields must be filled.", Alert.AlertType.WARNING);
+                return;
+            }
+
+            dbHandler.deleteRecord(record);
+            tableView.getItems().remove(record);
+            refreshTableData();
+            showNotificationAlert("Record deleted successfully.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+
 }
 

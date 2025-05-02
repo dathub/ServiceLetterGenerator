@@ -5,18 +5,18 @@ import javafx.beans.property.StringProperty;
 
 public class FileRecord {
 
-    private final StringProperty name;
-    private final StringProperty membershipNo;
-    private final StringProperty project;
-    private final StringProperty projectCode;
-    private final StringProperty projectDate;
-    private final StringProperty subCommittee;
-    private final StringProperty documentId;
-    private final StringProperty documentDate;
-    private final StringProperty projectPeriod;
-    private final StringProperty dbPrimaryKeyId;
-    private final StringProperty lastUpdatedTime;
-    private final StringProperty approvedBy;
+    private StringProperty name;
+    private StringProperty membershipNo;
+    private StringProperty project;
+    private StringProperty projectCode;
+    private StringProperty projectDate;
+    private StringProperty subCommittee;
+    private StringProperty documentId;
+    private StringProperty documentDate;
+    private StringProperty projectPeriod;
+    private StringProperty dbPrimaryKeyId;
+    private StringProperty lastUpdatedTime;
+    private StringProperty approvedBy;
 
 
     public FileRecord(String name, String membershipNo, String project, String projectCode, String projectDate,
@@ -135,4 +135,35 @@ public class FileRecord {
         return approvedBy.get();
     }
 
+    public void setName(String name) {
+        this.name = new SimpleStringProperty(name);
+    }
+
+    public void setMembershipNo(String membershipNo) {
+        this.membershipNo = new SimpleStringProperty(membershipNo);
+    }
+
+    public void setProject(String project) {
+        this.project = new SimpleStringProperty(project);
+    }
+
+    public void setProjectDate(String projectDate) {
+        this.projectDate = new SimpleStringProperty(projectDate);
+    }
+
+    public void setSubCommittee(String subCommittee) {
+        this.subCommittee = new SimpleStringProperty(subCommittee);
+    }
+
+    public void setProjectPeriod(String projectPeriod) {
+        this.projectPeriod = new SimpleStringProperty(projectPeriod);
+    }
+
+    public void setApprovedBy(String approvedBy) {
+        this.approvedBy = new SimpleStringProperty(approvedBy);
+    }
+
+    public void setLastUpdatedTime(String lastUpdatedTime) {
+        this.lastUpdatedTime = new SimpleStringProperty(lastUpdatedTime);
+    }
 }

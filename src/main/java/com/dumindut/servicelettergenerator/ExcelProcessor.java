@@ -43,6 +43,13 @@ public class ExcelProcessor {
                         subCommittee, "", "", projectPeriod, "",lastUpdatedTime,approvalComment);
 
                 logger.debug(fileRecord.toString());
+
+                if (dbHandler.isDuplicate(fileRecord)) {
+                    logger.debug(String.format("Duplicate record found: %s - %s - %s - %s - %s - %s", fileRecord.getName(), fileRecord.getMembershipNo(),
+                            fileRecord.getProject(), fileRecord.getProjectDate(), fileRecord.getSubCommittee(), fileRecord.getProjectPeriod()));
+                    continue; // Skip DB insert if duplicate is found
+                }
+
                 dbHandler.insertData(fileRecord);
             }
         } catch (Exception e) {

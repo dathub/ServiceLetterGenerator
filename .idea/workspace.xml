@@ -10,15 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c71f9ff-caae-4ae6-bb2a-037d5ef22438" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/FileUploadApprovalDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filerecords.db" beforeDir="false" afterPath="$PROJECT_DIR$/filerecords.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DatabaseHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Defs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Defs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/ExcelProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/ExcelProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/FileRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/FileRecord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/SQLiteDatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/SQLiteDatabaseHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MainView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +30,7 @@
         <option value="FxmlFile" />
         <option value="CSS File" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -93,6 +91,9 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Personal\Projects\ServiceLetterGenerator\src\main\resources" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.dumindut.servicelettergenerator" />
     </key>
   </component>
   <component name="RunManager" selected="Application.SLGApp">
@@ -185,7 +186,11 @@
       <workItem from="1745661080635" duration="17170000" />
       <workItem from="1745765088016" duration="1545000" />
       <workItem from="1745816067826" duration="2000000" />
-      <workItem from="1745852799255" duration="3848000" />
+      <workItem from="1745852799255" duration="6957000" />
+      <workItem from="1746061830685" duration="4702000" />
+      <workItem from="1746095359426" duration="6722000" />
+      <workItem from="1746155976874" duration="781000" />
+      <workItem from="1746200656971" duration="1328000" />
     </task>
     <servers />
   </component>

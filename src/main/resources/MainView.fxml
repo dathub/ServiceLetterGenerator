@@ -80,7 +80,7 @@
                         <TableColumn fx:id="subCommitteeCol" text="SUB COMMITTEE" prefWidth="150" />
                         <TableColumn fx:id="projectPeriodCol" text="PROJECT PERIOD" prefWidth="150" />
                         <TableColumn fx:id="lastUpdatedTimeColumn" text="LAST UPDATED TIME" prefWidth="150"/>
-                        <TableColumn fx:id="approvedByColumn" text="APPROVED BY" prefWidth="250"/>
+                        <TableColumn fx:id="approvedByColumn" text="APPROVED BY" prefWidth="300"/>
                         <TableColumn fx:id="documentIdCol" text="LETTER NO" prefWidth="180" />
                         <TableColumn fx:id="documentDateCol" text="LETTER DATE" prefWidth="100" />
                         <TableColumn fx:id="dbKey" text="DB KEY" prefWidth="100" />
