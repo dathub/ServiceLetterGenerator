@@ -265,6 +265,7 @@ public class MainController {
             statusLabel.setVisible(false);
             boolean success = task.getValue();
             if (success) {
+                dbHandler.logAuditTrail("FILE GENERATE", "File generated successfully.", "NA", "NA", "NA");
                 showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
             } else {
                 ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
@@ -583,6 +584,7 @@ public class MainController {
             statusLabel.setVisible(false);
             boolean success = task.getValue();
             if (success) {
+                dbHandler.logAuditTrail("MULTIPLE FILES GENERATE", "Files generated successfully.", "NA", "NA", "NA");
                 showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
             } else {
                 ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
@@ -877,10 +879,15 @@ public class MainController {
 
             String approvalTxt = getFinalApprovalTxt(initiatedByField.getText().trim(), approverField.getText().trim());
 
+            String projectTxt = projectField.getText().trim();
+            if(projectTxt.length() > 50){
+                showNotificationAlert("Project value exceeds 50 characters", Alert.AlertType.ERROR);
+            }
+
             FileRecord newRecord = new FileRecord(
                     nameField.getText().trim(),
                     membershipNoField.getText().trim(),
-                    projectField.getText().trim(),
+                    projectTxt,
                     "",
                     projectDateField.getText().trim(),
                     subCommitteeField.getText().trim(),

@@ -81,6 +81,13 @@ public class Validator {
                         return false;
                     }
 
+                    if (columnName.equals(COL_PROJECT)) {
+                        String projectValue = getCellValue(cell);
+                        if (projectValue.length() > 50) {
+                            addError("Project value exceeds 50 characters at row " + (row.getRowNum() + 1));
+                        }
+                    }
+
                     // Validate PROJECT DATE column as DATE type
 //                    if (columnName.equals(COL_PROJECT_DATE)) {
 //                        if (cell.getCellType() != CellType.NUMERIC || !DateUtil.isCellDateFormatted(cell)) {
@@ -112,7 +119,9 @@ public class Validator {
                 }
             }
 
-            isSuccess = true; // File is valid
+            if(errors.isEmpty()) {
+                isSuccess = true; // File is valid
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
