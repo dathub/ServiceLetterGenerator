@@ -6,6 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
 import javafx.scene.input.Clipboard;
@@ -22,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -191,6 +195,7 @@ public class MainController {
             setTableRowCountValue();
             boolean success = task.getValue();
             if (success) {
+                dbHandler.logAuditTrail("FILE UPLOAD", file.getAbsolutePath() + " uploaded.", comment, initiatedBy, approvedBy);
                 showNotificationAlert("Excel file processed successfully.", Alert.AlertType.INFORMATION);
             } else {
                 String title = "Excel File Validation Errors";
@@ -895,6 +900,14 @@ public class MainController {
             }
             dbHandler.deleteRecord(fileRecord);
             dbHandler.insertData(newRecord); // You must have this method in DatabaseHandler
+
+            String recordInfoTxt = newRecord.getName() + " - " +
+                    newRecord.getMembershipNo() + " - " +
+                    newRecord.getProject() + " - " +
+                    newRecord.getProjectDate() + " - " +
+                    newRecord.getSubCommittee() + " - " +
+                    newRecord.getProjectPeriod();
+            dbHandler.logAuditTrail("EDIT", recordInfoTxt,commentArea.getText().trim(), initiatedByField.getText().trim(), approverField.getText().trim());
             refreshTableData();
             showNotificationAlert("Record updated successfully.", Alert.AlertType.INFORMATION);
         }
@@ -905,15 +918,14 @@ public class MainController {
         dialog.setTitle("Delete confirmation");
         dialog.setHeaderText("Confirm deletion of the record below  and provide approval details");
 
+        String recordInfoTxt = record.getName() + " - " +
+                record.getMembershipNo() + " - " +
+                record.getProject() + " - " +
+                record.getProjectDate() + " - " +
+                record.getSubCommittee() + " - " +
+                record.getProjectPeriod();
         // Summary label just after header
-        Label recordLabel = new Label(
-                record.getName() + " - " +
-                        record.getMembershipNo() + " - " +
-                        record.getProject() + " - " +
-                        record.getProjectDate() + " - " +
-                        record.getSubCommittee() + " - " +
-                        record.getProjectPeriod()
-        );
+        Label recordLabel = new Label(recordInfoTxt);
         recordLabel.setStyle("-fx-font-weight: bold; -fx-padding: 0 0 10 0;");
 
         VBox container = new VBox(10);
@@ -947,12 +959,26 @@ public class MainController {
             }
 
             dbHandler.deleteRecord(record);
-            tableView.getItems().remove(record);
+            dbHandler.logAuditTrail("DELETE", recordInfoTxt,commentArea.getText().trim(), initiatedByField.getText().trim(), approverField.getText().trim());
             refreshTableData();
             showNotificationAlert("Record deleted successfully.", Alert.AlertType.INFORMATION);
         }
     }
 
+    @FXML
+    private void handleAuditTrailView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AuditTrailView.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Audit Trail Logs");
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.show();
+        } catch (IOException e) {
+            logger.error("Failed to open audit trail view", e);
+        }
+    }
 
 }
 

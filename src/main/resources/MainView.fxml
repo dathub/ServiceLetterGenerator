@@ -12,6 +12,9 @@
                 <Menu text="File">
                     <MenuItem text="Close" onAction="#handleClose"/>
                 </Menu>
+                <Menu text="Audit View">
+                    <MenuItem text="View Audit Trail" onAction="#handleAuditTrailView"/>
+                </Menu>
                 <Menu text="Help">
                     <MenuItem text="Issue troubleshooting" onAction="#handleIssueTroubleshooting"/>
                     <MenuItem text="User manual" onAction="#handleUserManual"/>

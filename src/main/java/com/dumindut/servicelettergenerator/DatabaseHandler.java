@@ -2,12 +2,10 @@ package com.dumindut.servicelettergenerator;
 
 import javafx.collections.ObservableList;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface DatabaseHandler {
-    void createTable();
+    void createTables();
 
     void insertData(FileRecord fileRecord);
 
@@ -34,4 +32,9 @@ public interface DatabaseHandler {
     void deleteRecord(FileRecord record);
 
     void updateRecord(FileRecord record);
+
+    void logAuditTrail(String action, String description, String comment, String initiatedBy, String approvedBy);
+
+    ObservableList<AuditTrailRecord> getAllAuditLogs();
+
 }

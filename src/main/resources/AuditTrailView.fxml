@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="TOP_CENTER"
+      fx:controller="com.dumindut.servicelettergenerator.AuditTrailController">
+    <Label text="Audit Trail Log" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+    <TableView fx:id="auditTable">
+        <columns>
+            <TableColumn fx:id="colActionedTime" text="Actioned Time" prefWidth="140"/>
+            <TableColumn fx:id="colAction" text="Action" prefWidth="100"/>
+            <TableColumn fx:id="colDescription" text="Description" prefWidth="500"/>
+            <TableColumn fx:id="colComment" text="User Comment" prefWidth="250"/>
+            <TableColumn fx:id="colInitiatedBy" text="Initiated By" prefWidth="140"/>
+            <TableColumn fx:id="colApprovedBy" text="Approved By" prefWidth="140"/>
+        </columns>
+    </TableView>
+</VBox>

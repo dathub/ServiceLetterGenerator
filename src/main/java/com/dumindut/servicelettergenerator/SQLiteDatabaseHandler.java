@@ -6,18 +6,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteDatabaseHandler implements DatabaseHandler {
     private static final Logger logger = LoggerFactory.getLogger(SQLiteDatabaseHandler.class);
-    private static final String DB_URL = "jdbc:sqlite:filerecords.db";
+    private static final String DB_URL = "jdbc:sqlite:slgdb.db";
 
     public SQLiteDatabaseHandler() {
-        createTable();
+        createTables();
     }
 
-    public void createTable() {
+    public void createTables() {
+        createFileRecordTable();
+        createAuditTable();
+    }
+
+    public void createFileRecordTable() {
         String sql = """
             CREATE TABLE IF NOT EXISTS filerecords (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,6 +46,25 @@ public class SQLiteDatabaseHandler implements DatabaseHandler {
             stmt.execute(sql);
         } catch (SQLException e) {
             SQLiteDatabaseHandler.logger.error(e.getMessage(), e);
+        }
+    }
+
+    public void createAuditTable() {
+        String auditTrailSQL = """
+        CREATE TABLE IF NOT EXISTS audit_trail (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            actioned_time TEXT,
+            action TEXT,
+            description TEXT,
+            user_comment TEXT,
+            initiated_by TEXT,
+            approved_by TEXT
+        )""";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(auditTrailSQL);
+        } catch (SQLException e) {
+            logger.error("Failed to create audit_trail table", e);
         }
     }
 
@@ -290,12 +316,47 @@ public class SQLiteDatabaseHandler implements DatabaseHandler {
 
     @Override
     public void updateRecord(FileRecord record) {
-        if(isDuplicate(record)) {
-
-        }
-
-        insertData(record);
     }
 
+
+    @Override
+    public void logAuditTrail(String action, String description, String comment, String initiatedBy, String approvedBy) {
+        String sql = "INSERT INTO audit_trail (actioned_time, action, description, user_comment, initiated_by, approved_by) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            pstmt.setString(2, action);
+            pstmt.setString(3, description);
+            pstmt.setString(4, comment);
+            pstmt.setString(5, initiatedBy);
+            pstmt.setString(6, approvedBy);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Error logging audit trail", e);
+        }
+    }
+
+    @Override
+    public ObservableList<AuditTrailRecord> getAllAuditLogs() {
+        ObservableList<AuditTrailRecord> logs = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM audit_trail ORDER BY id DESC";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                logs.add(new AuditTrailRecord(
+                        rs.getString("actioned_time"),
+                        rs.getString("action"),
+                        rs.getString("description"),
+                        rs.getString("user_comment"),
+                        rs.getString("initiated_by"),
+                        rs.getString("approved_by")
+                ));
+            }
+        } catch (SQLException e) {
+            logger.error("Failed to load audit trail logs", e);
+        }
+        return logs;
+    }
 
 }
