@@ -50,6 +50,8 @@ public class MainController {
     @FXML
     private Button btnClearFilter;
     @FXML
+    private Button btnUploadToDrive;
+    @FXML
     private TextField txtName;
     @FXML
     private TextField txtMembershipNo;
@@ -106,6 +108,7 @@ public class MainController {
         btnGenerateAll.setOnAction(e -> handleGenerateAllDocuments());
         btnCleanDB.setOnAction(e -> handleCleanDB());
         btnFilter.setOnAction(e -> applyFilter());
+        btnUploadToDrive.setOnAction(e -> handleUploadToDrive());
         btnClearFilter.setOnAction(e -> applyClearFilter());
         setupTableView();
         loadTableData();
@@ -985,6 +988,46 @@ public class MainController {
         } catch (IOException e) {
             logger.error("Failed to open audit trail view", e);
         }
+    }
+
+    private void handleUploadToDrive() {
+
+        Task<Boolean> task = new Task<>() {
+            @Override
+            protected Boolean call() {
+//                documentGenerationErrors.clear();
+//                return generateDocumentsForMember(dataSource, directoryToSave, null);
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            progressIndicator.setVisible(true);
+            statusLabel.setVisible(true);
+            statusLabel.setText("Uploading documents to drive...");
+        });
+
+        task.setOnSucceeded(e -> {
+            progressIndicator.setVisible(false);
+            statusLabel.setVisible(false);
+            boolean success = task.getValue();
+            if (success) {
+//                dbHandler.logAuditTrail("FILE GENERATE", "File generated successfully.", "NA", "NA", "NA");
+//                showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
+            } else {
+//                ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
+            }
+        });
+
+        task.setOnFailed(e -> {
+            progressIndicator.setVisible(false);
+            statusLabel.setVisible(false);
+            Throwable ex = task.getException();
+            logger.error("Error uploading documents to drive", ex);
+            showNotificationAlert("Failed to upload documents to drive: " + ex.getMessage(), Alert.AlertType.ERROR);
+        });
+
+        new Thread(task).start();
     }
 
 }
