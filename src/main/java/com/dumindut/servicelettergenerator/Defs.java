@@ -26,13 +26,15 @@ public class Defs {
 
     public static final String DATE_PATTERN = "dd/MM/yyyy";
 
-    public static final String VAR_MEMBER_NAME = "VAR_1";
-    public static final String VAR_MEMBERSHIP_NO = "VAR_2";
-    public static final String VAR_NIC = "VAR_3";
-    public static final String VAR_LETTER_NO = "VAR_4";
-    public static final String VAR_LETTER_DATE = "VAR_5";
-    public static final String VAR_ROW_COUNT = "VAR_6";
-    public static final String VAR_SERVICE_PERIOD = "VAR_7";
+    public static final String VAR_MEMBER_NAME = "V_1";
+    public static final String VAR_MEMBERSHIP_NO = "V_2";
+    public static final String VAR_NIC = "V_3";
+    public static final String VAR_LETTER_NO = "V_4";
+    public static final String VAR_LETTER_DATE = "V_5";
+    public static final String VAR_ROW_COUNT = "V_6";
+    public static final String VAR_SERVICE_PERIOD = "V_7";
+    public static final String VAR_CONTRIBUTION_TABLE = "V_8";
+    public static final String VAR_QR = "V_9";
 
     public static final String DB_COL_ID = "id";
     public static final String DB_COL_NAME = "name";

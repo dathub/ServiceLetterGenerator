@@ -6,6 +6,8 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -25,13 +27,13 @@ public class GoogleDriveUploader {
     private static final String APPLICATION_NAME = "ServiceLetterGeneratorUploader";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
-
     private static final List<String> SCOPES = List.of(DriveScopes.DRIVE_FILE);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json"; // Place under resources
+    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    /**
-     * Loads OAuth2 credentials.
-     */
+    // Timeout configuration (20 seconds)
+    private static final int CONNECT_TIMEOUT_MS = 20_000;
+    private static final int READ_TIMEOUT_MS = 20_000;
+
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = GoogleDriveUploader.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
@@ -50,19 +52,21 @@ public class GoogleDriveUploader {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    /**
-     * Returns an authorized Drive client.
-     */
     public static Drive getDriveService() throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        Credential credential = getCredentials(HTTP_TRANSPORT);
+
+        HttpRequestInitializer timeoutInitializer = request -> {
+            credential.initialize(request);
+            request.setConnectTimeout(CONNECT_TIMEOUT_MS);
+            request.setReadTimeout(READ_TIMEOUT_MS);
+        };
+
+        return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, timeoutInitializer)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
 
-    /**
-     * Uploads a file to Google Drive.
-     */
     public static String uploadFile(java.io.File fileToUpload, String mimeType) throws Exception {
         Drive service = getDriveService();
 

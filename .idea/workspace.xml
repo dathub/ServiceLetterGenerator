@@ -10,12 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c71f9ff-caae-4ae6-bb2a-037d5ef22438" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/GoogleDriveUploader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41c69917-750f-40fc-8251-7df02618af1b.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Defs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Defs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DocumentGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DocumentGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/GoogleDriveUploader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/GoogleDriveUploader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MainView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Validator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/LetterTemplate.docx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/LetterTemplate.docx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,6 +197,8 @@
       <workItem from="1746247943878" duration="12993000" />
       <workItem from="1746444100286" duration="20000" />
       <workItem from="1746764692185" duration="600000" />
+      <workItem from="1746852929324" duration="6739000" />
+      <workItem from="1746925055364" duration="26206000" />
     </task>
     <servers />
   </component>
@@ -202,5 +207,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/GoogleDriveUploader.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

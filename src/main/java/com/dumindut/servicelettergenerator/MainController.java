@@ -991,44 +991,49 @@ public class MainController {
     }
 
     private void handleUploadToDrive() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MS Word Files", "*.docx"));
+        fileChooser.setTitle("Select generated Service Letter file");
+        File file = fileChooser.showOpenDialog(new Stage());
 
-        Task<Boolean> task = new Task<>() {
+        if (file == null) {
+            logger.info("File selection cancelled.");
+            return; // or return false, or exit the method early
+        }
+
+        uploadToGoogleDrive(file);
+    }
+
+    private void uploadToGoogleDrive(File fileToUpload) {
+        Task<Void> uploadTask = new Task<>() {
             @Override
-            protected Boolean call() {
-//                documentGenerationErrors.clear();
-//                return generateDocumentsForMember(dataSource, directoryToSave, null);
+            protected Void call() throws Exception {
+                updateMessage("Uploading to Google Drive...");
+                GoogleDriveUploader.uploadFile(fileToUpload, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                updateMessage("Upload successful!");
                 return null;
             }
         };
 
-        task.setOnRunning(e -> {
-            progressIndicator.setVisible(true);
-            statusLabel.setVisible(true);
-            statusLabel.setText("Uploading documents to drive...");
-        });
+        progressIndicator.setVisible(true);
+        statusLabel.setVisible(true);
+        statusLabel.textProperty().bind(uploadTask.messageProperty());
 
-        task.setOnSucceeded(e -> {
+        uploadTask.setOnSucceeded(e -> {
             progressIndicator.setVisible(false);
-            statusLabel.setVisible(false);
-            boolean success = task.getValue();
-            if (success) {
-//                dbHandler.logAuditTrail("FILE GENERATE", "File generated successfully.", "NA", "NA", "NA");
-//                showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
-            } else {
-//                ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
-            }
+            statusLabel.textProperty().unbind();
+            statusLabel.setText("Upload complete.");
         });
 
-        task.setOnFailed(e -> {
+        uploadTask.setOnFailed(e -> {
             progressIndicator.setVisible(false);
-            statusLabel.setVisible(false);
-            Throwable ex = task.getException();
-            logger.error("Error uploading documents to drive", ex);
-            showNotificationAlert("Failed to upload documents to drive: " + ex.getMessage(), Alert.AlertType.ERROR);
+            statusLabel.textProperty().unbind();
+            statusLabel.setText("Upload failed: " + uploadTask.getException().getMessage());
         });
 
-        new Thread(task).start();
+        new Thread(uploadTask).start();
     }
+
 
 }
 

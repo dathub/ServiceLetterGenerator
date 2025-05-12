@@ -84,7 +84,14 @@ public class Validator {
                     if (columnName.equals(COL_PROJECT)) {
                         String projectValue = getCellValue(cell);
                         if (projectValue.length() > 50) {
-                            addError("Project value exceeds 50 characters at row " + (row.getRowNum() + 1));
+                            addError("'Project' value exceeds 50 characters at row " + (row.getRowNum() + 1));
+                        }
+                    }
+
+                    if (columnName.equals(COL_SUB_COMMITTEE)) {
+                        String projectValue = getCellValue(cell);
+                        if (projectValue.length() > 30) {
+                            addError("'Sub Committee' value exceeds 30 characters at row " + (row.getRowNum() + 1));
                         }
                     }
 
