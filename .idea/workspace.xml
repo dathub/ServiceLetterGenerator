@@ -10,14 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c71f9ff-caae-4ae6-bb2a-037d5ef22438" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Defs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Defs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/createinstaller.bat" beforeDir="false" afterPath="$PROJECT_DIR$/createinstaller.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DocumentGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DocumentGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/GoogleDriveUploader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/GoogleDriveUploader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/Validator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MainView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/LetterTemplate.docx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/LetterTemplate.docx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -198,7 +196,14 @@
       <workItem from="1746444100286" duration="20000" />
       <workItem from="1746764692185" duration="600000" />
       <workItem from="1746852929324" duration="6739000" />
-      <workItem from="1746925055364" duration="26206000" />
+      <workItem from="1746925055364" duration="29021000" />
+      <workItem from="1747383704597" duration="15000" />
+      <workItem from="1747843947611" duration="932000" />
+      <workItem from="1748353353111" duration="3754000" />
+      <workItem from="1748403000207" duration="293000" />
+      <workItem from="1748404097339" duration="2706000" />
+      <workItem from="1748504891946" duration="1286000" />
+      <workItem from="1748528539825" duration="1382000" />
     </task>
     <servers />
   </component>

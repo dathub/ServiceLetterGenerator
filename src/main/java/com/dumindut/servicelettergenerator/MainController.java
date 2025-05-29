@@ -49,8 +49,8 @@ public class MainController {
     private Button btnFilter;
     @FXML
     private Button btnClearFilter;
-    @FXML
-    private Button btnUploadToDrive;
+//    @FXML
+//    private Button btnUploadToDrive;
     @FXML
     private TextField txtName;
     @FXML
@@ -108,7 +108,7 @@ public class MainController {
         btnGenerateAll.setOnAction(e -> handleGenerateAllDocuments());
         btnCleanDB.setOnAction(e -> handleCleanDB());
         btnFilter.setOnAction(e -> applyFilter());
-        btnUploadToDrive.setOnAction(e -> handleUploadToDrive());
+//        btnUploadToDrive.setOnAction(e -> handleUploadToDrive());
         btnClearFilter.setOnAction(e -> applyClearFilter());
         setupTableView();
         loadTableData();

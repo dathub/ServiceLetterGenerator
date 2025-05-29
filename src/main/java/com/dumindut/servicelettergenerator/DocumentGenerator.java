@@ -109,13 +109,14 @@ public class DocumentGenerator {
         String letterDate = replacements.get(VAR_LETTER_DATE);
         String projectCount = replacements.get(VAR_ROW_COUNT);
 
-        String qrData = "Member Name: " + memName + "\n Member Id: " + memId + "\n Letter No: " + letterNo + "\n Letter Date: " + letterDate + "\n Project Count: " + projectCount;
+        String qrData = "Member Name: " + memName + ",\n Member Id: " + memId + ",\n Letter No: " + letterNo + ",\n Letter Date: "
+                + letterDate + ",\n Project Count: " + projectCount;
 
-        ByteArrayOutputStream qrOutput = generateQRCode(qrData, 48, 48);
+        ByteArrayOutputStream qrOutput = generateQRCode(qrData, 64, 64);
         byte[] qrBytes = qrOutput.toByteArray();
 
         // Call cleaner method
-        insertQRImageParagraph(document, qrBytes, 48, 48);
+        insertQRImageParagraph(document, qrBytes, 64, 64);
     }
 
     private void insertQRImageParagraph(XWPFDocument document, byte[] imageBytes, int widthPx, int heightPx) throws Exception {
@@ -201,6 +202,7 @@ public class DocumentGenerator {
             int fontSize = templateRun.getFontSize();
             boolean isBold = templateRun.isBold();
             boolean isItalic = templateRun.isItalic();
+            UnderlinePatterns ulPattern = templateRun.getUnderline();
             String fontFamily = templateRun.getFontFamily();
             String color = templateRun.getColor();
 
@@ -216,6 +218,7 @@ public class DocumentGenerator {
             if (fontSize > 0) newRun.setFontSize(fontSize);
             if (isBold) newRun.setBold(true);
             if (isItalic) newRun.setItalic(true);
+            if(ulPattern != null) newRun.setUnderline(ulPattern);
             if (fontFamily != null) newRun.setFontFamily(fontFamily);
             if (color != null) newRun.setColor(color);
         }
@@ -259,6 +262,7 @@ public class DocumentGenerator {
             int fontSize = templateRun.getFontSize();
             boolean isBold = templateRun.isBold();
             boolean isItalic = templateRun.isItalic();
+            UnderlinePatterns ulPattern = templateRun.getUnderline();
             String fontFamily = templateRun.getFontFamily();
             String color = templateRun.getColor();
 
@@ -274,6 +278,7 @@ public class DocumentGenerator {
             if (fontSize > 0) newRun.setFontSize(fontSize);
             if (isBold) newRun.setBold(true);
             if (isItalic) newRun.setItalic(true);
+            if(ulPattern != null) newRun.setUnderline(ulPattern);
             if (fontFamily != null) newRun.setFontFamily(fontFamily);
             if (color != null) newRun.setColor(color);
         }
