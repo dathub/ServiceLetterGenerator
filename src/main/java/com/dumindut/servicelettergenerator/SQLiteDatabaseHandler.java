@@ -13,7 +13,8 @@ import java.util.List;
 
 public class SQLiteDatabaseHandler implements DatabaseHandler {
     private static final Logger logger = LoggerFactory.getLogger(SQLiteDatabaseHandler.class);
-    private static final String DB_URL = "jdbc:sqlite:slgdb.db";
+//    private static final String DB_URL = "jdbc:sqlite:slgdb.db";
+    public static final String DB_URL = "jdbc:sqlite:" + AppStorageUtil.getDatabasePath();
 
     public SQLiteDatabaseHandler() {
         createTables();

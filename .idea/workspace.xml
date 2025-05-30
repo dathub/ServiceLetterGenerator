@@ -10,13 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c71f9ff-caae-4ae6-bb2a-037d5ef22438" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/AppStorageUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/createinstaller.bat" beforeDir="false" afterPath="$PROJECT_DIR$/createinstaller.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DocumentGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/DocumentGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/MainView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/LetterTemplate.docx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/LetterTemplate.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/SQLiteDatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dumindut/servicelettergenerator/SQLiteDatabaseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,7 +201,7 @@
       <workItem from="1748403000207" duration="293000" />
       <workItem from="1748404097339" duration="2706000" />
       <workItem from="1748504891946" duration="1286000" />
-      <workItem from="1748528539825" duration="1382000" />
+      <workItem from="1748528539825" duration="8281000" />
     </task>
     <servers />
   </component>
