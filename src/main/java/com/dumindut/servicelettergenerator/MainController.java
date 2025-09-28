@@ -271,6 +271,7 @@ public class MainController {
                 dbHandler.logAuditTrail("FILE GENERATE", "File generated successfully.", "NA", "NA", "NA");
                 showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
             } else {
+                dbHandler.logAuditTrail("FILE GENERATE", "Error occurred when generating document.", "NA", "NA", "NA");
                 ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
             }
         });
@@ -280,6 +281,7 @@ public class MainController {
             statusLabel.setVisible(false);
             Throwable ex = task.getException();
             logger.error("Error generating documents", ex);
+            dbHandler.logAuditTrail("FILE GENERATE", "Error occurred when generating document.", "NA", "NA", "NA");
             showNotificationAlert("Failed to generate documents: " + ex.getMessage(), Alert.AlertType.ERROR);
         });
 
@@ -297,7 +299,7 @@ public class MainController {
         Set<String> singularCheckForMemberId = new HashSet<>();
         Set<String> singularCheckForProjectPeriod = new HashSet<>();
         List<List<String>> tableData = new ArrayList<>();
-        List<String> headerData = List.of("Folio","Project","Project Date","Sub Committee/Exec. Officer");
+        List<String> headerData = List.of("#","Project","Project Date","Sub Committee/Exec. Officer");
         tableData.add(headerData);
         int i=0;
         for (FileRecord fileRecord : dataSource) {
@@ -373,7 +375,7 @@ public class MainController {
         List<String> chunkDbKeys = new ArrayList<>();
         List<List<String>> tableData = new ArrayList<>();
         ;
-        List<String> headerData = List.of("Folio","Project","Project Date","Sub Committee/Exec. Officer");
+        List<String> headerData = List.of("#","Project","Project Date","Sub Committee/Exec. Officer");
         tableData.add(headerData);
 
         int i=0;
@@ -590,6 +592,7 @@ public class MainController {
                 dbHandler.logAuditTrail("MULTIPLE FILES GENERATE", "Files generated successfully.", "NA", "NA", "NA");
                 showNotificationAlert(INFO_DOC_GEN_SUCCESS, Alert.AlertType.INFORMATION);
             } else {
+                dbHandler.logAuditTrail("MULTIPLE FILES GENERATE", "Error occurred when generating all documents.", "NA", "NA", "NA");
                 ErrorView.showErrors(documentGenerationErrors, "Document Generation Errors", "Following issues encountered when generating the documents");
             }
         });
@@ -598,6 +601,7 @@ public class MainController {
             progressIndicator.setVisible(false);
             statusLabel.setVisible(false);
             Throwable ex = task.getException();
+            dbHandler.logAuditTrail("MULTIPLE FILES GENERATE", "Error occurred when generating all documents.", "NA", "NA", "NA");
             logger.error("Error generating all documents", ex);
             showNotificationAlert("Failed to generate documents: " + ex.getMessage(), Alert.AlertType.ERROR);
         });
@@ -611,6 +615,7 @@ public class MainController {
             // Proceed to clean database
             if(dbHandler.cleanDatabase()) {
                 refreshTableData();
+                dbHandler.logAuditTrail("CLEAN DB", "Deleted user service information.","Admin action", "Admin action", "Admin action");
                 showNotificationAlert("The database has been successfully cleaned.", Alert.AlertType.INFORMATION);
             } else {
                 showNotificationAlert(ERROR_SYSTEM, Alert.AlertType.ERROR);
